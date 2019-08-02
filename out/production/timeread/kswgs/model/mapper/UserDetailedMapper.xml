@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace用于与DAO层的接口类进行绑定,这样我们无需实现DAO层的接口
+   类,其接口类就能够自动的找到相关的SQL语句进行绑定实现-->
+<mapper namespace="kswgs.model.dao.IUserDetailedDao">
+
+    <resultMap id="UserDetailed" type="UserDetailed">
+        <id column="detailed_id" property="id"/>
+        <result column="user_id" property="user_id"/>
+        <result column="gender" property="gender"/>
+        <result column="point" property="point"/>
+        <result column="birthday" property="birthday"/>
+        <result column="registration_time" property="registration_time"/>
+        <result column="image_path" property="image_path"/>
+        <result column="activate" property="activate"/>
+        <result column="activate_code" property="activate_code"/>
+    </resultMap>
+
+    <insert id="insertUserDetailed" parameterType="UserDetailed">
+        insert into t_user_detailed(user_id,gender,point,registration_time,activate,activate_code,image_path)
+        values (#{0},2,0,#{1},0,#{2},'/IMG/touxiang.jpg');
+    </insert>
+
+    <update id="updateActivate" parameterType="UserDetailed">
+        update t_user_detailed set activate = #{1},activate_code = #{2} where user_id = #{0};
+    </update>
+
+    <update id="updatePointById" parameterType="Map">
+        update t_user_detailed set point = point - #{book_point} where user_id = #{user_id}
+    </update>
+
+    <update id="updatePointBySign" parameterType="Map">
+        update t_user_detailed set point = point + #{sign_point} where user_id = #{user_id}
+    </update>
+
+    <update id="updateUserInfoById" parameterType="Map">
+        update t_user_detailed set gender = #{gender},birthday = #{birthday} where user_id = #{user_id}
+    </update>
+
+    <update id="updateUserHeadImgById" parameterType="Map">
+        update t_user_detailed set image_path = #{image_path} where user_id = #{user_id}
+    </update>
+</mapper>

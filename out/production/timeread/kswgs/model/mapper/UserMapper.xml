@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace用于与DAO层的接口类进行绑定,这样我们无需实现DAO层的接口
+   类,其接口类就能够自动的找到相关的SQL语句进行绑定实现-->
+<mapper namespace="kswgs.model.dao.IUserDao">
+
+    <!-- column对应数据库的命名，property对应实体类的命名-->
+    <resultMap id="userDetailed" type="User">
+        <id column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <association property="userDetailed" javaType="UserDetailed">
+            <id column="detailed_id" property="id"/>
+            <result column="user_id" property="user_id"/>
+            <result column="gender" property="gender"/>
+            <result column="point" property="point"/>
+            <result column="birthday" property="birthday"/>
+            <result column="registration_time" property="registration_time"/>
+            <result column="image_path" property="image_path"/>
+            <result column="activate" property="activate"/>
+            <result column="activate_code" property="activate_code"/>
+        </association>
+    </resultMap>
+
+    <!--查询出所有用户后台表格看的数据，不包含激活码-->
+    <select id="selectUserDetailed" resultMap="userDetailed">
+        select u.username,
+               u.email,
+               d.gender,
+               d.birthday,
+               d.registration_time,
+               d.point
+        from t_user u
+                 join t_user_detailed d
+        where u.username = d.user_id;
+    </select>
+
+    <!--查询出注册时用于发送激活邮件的信息，含激活码-->
+    <select id="selectUserActivate" resultMap="userDetailed">
+        select u.username,
+               u.email,
+               d.activate_code
+        from t_user u
+                 join t_user_detailed d
+        where u.username = d.user_id
+          and u.username = #{username};
+    </select>
+
+
+    <!--查询用户的基本信息和积分-->
+    <select id="selectByUsername" resultMap="userDetailed">
+        select u.username,
+               u.email,
+               u.password,
+               d.gender,
+               d.birthday,
+               d.registration_time,
+               d.point,
+               d.image_path,
+               d.activate
+        from t_user u
+                 join t_user_detailed d
+        where u.username = d.user_id
+          and u.username = #{username};
+    </select>
+
+
+    <select id="selectByEmail" resultMap="userDetailed">
+        select u.username,
+               u.email,
+               u.password,
+               d.gender,
+               d.birthday,
+               d.registration_time,
+               d.point,
+               d.image_path,
+               d.activate
+        from t_user u
+                 join t_user_detailed d
+        where u.username = d.user_id
+          and u.email = #{email};
+    </select>
+
+
+    <select id="selectByAllUser" resultType="User">
+        select *
+        from t_user
+    </select>
+
+    <!--查询出用户后台表格看的数据，不包含激活码-->
+    <select id="selectByUser" resultMap="userDetailed">
+        select u.username,
+               u.email,
+               d.gender,
+               d.birthday,
+               d.registration_time,
+               d.point
+        from t_user u
+                 join t_user_detailed d
+        where u.username = d.user_id
+        limit #{0},#{1}
+    </select>
+
+    <select id="isExistUsername" parameterType="String" resultType="String">
+        select username
+        from t_user
+        where username = #{username}
+    </select>
+
+    <select id="isExistEmail" parameterType="String" resultType="String">
+        select email
+        from t_user
+        where email = #{email}
+    </select>
+
+    <insert id="insertUser" parameterType="User">
+        insert into t_user (username, password, email) value (#{username}, #{password}, #{email});
+    </insert>
+
+    <select id="selectUserCount" resultType="int">
+        select count(user_id)
+        from t_user_detailed;
+    </select>
+
+    <select id="selectPasswordById" parameterType="String" resultType="String">
+        select password
+        from t_user
+        where username = #{username}
+    </select>
+
+    <update id="updatePasswordById" parameterType="Map">
+        update t_user
+        set password = #{password}
+        where username = #{username}
+    </update>
+
+</mapper>

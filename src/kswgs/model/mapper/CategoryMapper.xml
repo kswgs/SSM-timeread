@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace用于与DAO层的接口类进行绑定,这样我们无需实现DAO层的接口
+   类,其接口类就能够自动的找到相关的SQL语句进行绑定实现-->
+<mapper namespace="kswgs.model.dao.ICategoryDao">
+    <select id="selectByCategory" resultType="Category">
+        select category_id,`name`,parent_id
+        from t_category
+        where parent_id is not null;
+    </select>
+
+    <select id="selectByCategoryParent" resultType="Category">
+        select category_id,`name`
+        from t_category
+        where parent_id is null;
+    </select>
+
+    <select id="selectCategoryById" parameterType="String" resultType="String">
+        select c.name
+        from t_category c
+        where category_id = #{category}
+    </select>
+
+    <select id="selectCategoryParentById" parameterType="String" resultType="String">
+        select c.name
+        from t_category c
+        where parent_id is null and category_id = #{categoryParent}
+    </select>
+
+</mapper>

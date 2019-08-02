@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+    <typeAliases>
+        <typeAlias alias="User" type="kswgs.model.entity.User"  />
+        <typeAlias alias="UserDetailed" type="kswgs.model.entity.UserDetailed"  />
+        <typeAlias alias="Book" type="kswgs.model.entity.Book"  />
+        <typeAlias alias="BookFile" type="kswgs.model.entity.BookFile"  />
+        <typeAlias alias="Category" type="kswgs.model.entity.Category"  />
+        <typeAlias alias="ShoppingItem" type="kswgs.model.entity.ShoppingItem"  />
+        <typeAlias alias="Sign" type="kswgs.model.entity.Sign"  />
+        <typeAlias alias="AdImage" type="kswgs.model.entity.AdImage"  />
+        <typeAlias alias="Comment" type="kswgs.model.entity.Comment"  />
+        <typeAlias alias="Notice" type="kswgs.model.entity.Notice"  />
+        <typeAlias alias="BackUser" type="kswgs.model.entity.BackUser"  />
+
+        <typeAlias alias="Map" type="java.util.Map"  />
+
+    </typeAliases>
+
+
+</configuration>

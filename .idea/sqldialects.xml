@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/AdImageMapper.xml" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/BackUserMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/BookFileMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/BookMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/CategoryMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/CommentMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/NoticeMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/ShoppingItemMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/SignMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/UserDetailedMapper.xml" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/kswgs/model/mapper/UserMapper.xml" dialect="MySQL" />
+  </component>
+</project>

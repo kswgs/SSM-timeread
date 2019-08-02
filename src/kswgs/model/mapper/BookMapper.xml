@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kswgs.model.dao.IBookDao">
+
+    <resultMap id="bookAll" type="Book">
+        <id column="book_id" property="book_id"/>
+        <result column="name" property="name"/>
+        <result column="author" property="author"/>
+        <result column="introduction" property="introduction"/>
+        <result column="catalog" property="catalog"/>
+        <result column="category" property="category"/>
+        <result column="category_parent" property="category_parent"/>
+        <result column="image" property="image"/>
+        <result column="upload_time" property="upload_time"/>
+        <result column="book_point" property="book_point"/>
+        <association property="bookFile" javaType="BookFile">
+            <id column="book_file_id" property="book_file_id"/>
+            <result column="file_name" property="file_name"/>
+            <result column="file_type" property="file_type"/>
+            <result column="path" property="path"/>
+            <result column="book_id" property="book_id"/>
+            <result column="file_size" property="file_size"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertBook" parameterType="Book">
+        insert into t_book (book_id, name, author, introduction, catalog, category, category_parent, image, upload_time,
+                            book_point)
+            value
+            (#{book_id}, #{name}, #{author}, #{introduction}, #{catalog}, #{category}, #{category_parent},
+             #{image}, #{upload_time}, #{book_point});
+    </insert>
+
+    <select id="isExistBookName" parameterType="String" resultType="String">
+        select b.name
+        from t_book b
+        where b.name = #{bookname};
+    </select>
+
+    <select id="selectByNewBook" parameterType="java.util.Map" resultType="Book">
+        select b.book_id,b.name,b.author,b.introduction,b.category,b.category_parent,b.image,b.upload_time,b.book_point
+        from t_book b
+        <where>
+            <if test="category !=null">
+                b.category = #{category}
+            </if>
+            <if test="categoryParent!=null and category==null">
+                b.category_parent = #{categoryParent}
+            </if>
+            <if test="categoryParent!=null and category!=null">
+                and b.category_parent = #{categoryParent}
+            </if>
+        </where>
+        order by upload_time DESC
+        <if test="count!=null">
+            limit #{count}
+        </if>
+    </select>
+
+    <select id="selectBookById" parameterType="String" resultType="Book">
+        select b.book_id,
+               b.name,
+               b.author,
+               b.introduction,
+               b.category,
+               b.category_parent,
+               b.image,
+               b.upload_time,
+               b.book_point
+        from t_book b
+        where b.book_id = #{book_id}
+    </select>
+
+    <select id="selectBookByCategory" parameterType="Map" resultType="Book">
+        select b.book_id,b.name,b.author,b.introduction,b.category,b.category_parent,b.image,b.upload_time,b.book_point
+        from t_book b
+        <where>
+            <if test="category !=null">
+                b.category = #{category}
+            </if>
+            <if test="categoryParent!=null and category==null">
+                b.category_parent = #{categoryParent}
+            </if>
+            <if test="categoryParent!=null and category!=null">
+                and b.category_parent = #{categoryParent}
+            </if>
+        </where>
+        order by upload_time DESC
+        <if test="start!=null and end!=null">
+            limit #{start},#{end}
+        </if>
+    </select>
+
+    <select id="selectBookCount" parameterType="Map" resultType="int">
+        select count(book_id) from t_book b
+        <where>
+            <if test="category !=null">
+                b.category = #{category}
+            </if>
+            <if test="categoryParent!=null and category==null">
+                b.category_parent = #{categoryParent}
+            </if>
+            <if test="categoryParent!=null and category!=null">
+                and b.category_parent = #{categoryParent}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBookByRandom" parameterType="int" resultType="Book">
+        select b.book_id,b.name,b.author,c.`name` as category_parent,b.upload_time,b.image
+        from t_book b
+                 join t_category c
+        where b.category_parent = c.category_id
+        order by rand()
+        limit #{count}
+    </select>
+</mapper>

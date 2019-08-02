@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="kswgs.model.dao.IAdImageDao">
+
+    <resultMap id="AdImageAll" type="AdImage">
+        <id column="adImage_id" property="adImage_id"/>
+        <result column="image_path" property="image_path"/>
+        <result column="modify_time" property="modify_time"/>
+        <result column="order" property="order"/>
+    </resultMap>
+
+    <select id="selectAdImage" resultType="AdImage">
+        select adimage_id,image_path,modify_time,"order"
+        from t_adimage limit 3;
+    </select>
+
+
+
+</mapper>
